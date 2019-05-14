@@ -4,8 +4,25 @@
   "description": "Not just another chat app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js",
+    "dev": "NODE_ENV=development webpack-dev-server --open && nodemon server/server.js"
   },
   "author": "Geoffrey Lin",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "nodemon": "^1.19.0",
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.3.1"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
 }
