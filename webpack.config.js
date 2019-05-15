@@ -20,9 +20,13 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   devServer: {
+    contentBase: path.join(__dirname, 'public'),
     publicPath: '/dist/',
     compress: true,
-    port: 9000
+    port: 9000,
+    proxy: {
+      '/messages': 'http://localhost:3000',
+    }
   },
   output: {
     path: path.resolve(__dirname, './dist'),
