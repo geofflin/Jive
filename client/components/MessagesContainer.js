@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Message from './Message.js';
+import MessagesDisplay from './MessagesDisplay.js';
 import MessageForm from './MessageForm.js';
 
 class MessagesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [{ fromUser: 'Geoff', msg: 'Hello!' }]
+      messages: []
     }
     this.getMessages = this.getMessages.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -17,7 +17,7 @@ class MessagesContainer extends Component {
     // fetch request to /messages route
     fetch('/messages')
       .then(res => res.json())
-      .then(myJson => console.log(JSON.stringify(myJson)))
+      .then(messages => this.setState({ messages }))
       .catch(err => console.error(err));
   }
 
@@ -31,17 +31,21 @@ class MessagesContainer extends Component {
       body: JSON.stringify(message), 
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(message => this.setState({ messages: this.state.messages.concat(message) }))
+      // .then(res => res.json())
+      .then(() => this.getMessages())
       .catch(error => console.error('Error:', error));
   }
 
+  componentDidMount() {
+    this.getMessages();
+    setTimeout(this.getMessages, 5000);
+  }
+
   render() {
-    const messages = this.state.messages.map((msgObj, i) => <Message msgObj={msgObj} key={i} />);
     return (
       <div>
-        {messages}
-        <MessageForm getMessages={this.getMessages} postMessage={this.postMessage} />
+        <MessagesDisplay messages={[...this.state.messages]} />
+        <MessageForm postMessage={this.postMessage} />
       </div>
     );  
   }

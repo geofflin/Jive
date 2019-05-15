@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../public/index.html')));
 }
 
+app.get('/index.css', (req, res) => res.sendFile(path.resolve(__dirname, '../public/index.css')));
+
 app.get('/messages', getMessages);
 app.post('/messages', postMessage);
 

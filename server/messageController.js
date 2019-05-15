@@ -1,6 +1,6 @@
-// const db = require('../database/elephantsql');
 const { Pool } = require('pg');
-const uri = 'postgres://kzbujefd:az33ZfTosSKCrfqnrM1dtGHDPIywoiQ2@isilo.db.elephantsql.com:5432/kzbujefd';
+
+// Connect to db
 const pool = new Pool({
   user: 'kzbujefd',
   host: 'isilo.db.elephantsql.com',
@@ -14,40 +14,31 @@ pool.connect((err, client, done) => {
   console.log('Successfully connected to db!');
 })
 
-// Implement Database Logic Here to get messages from elephantsql
+// Message Controller logic
 const messageController = {};
 
 messageController.getMessages = (req, res, next) => {
-  res.json({ test: 'its working!' });
+  pool
+    .query(`SELECT * FROM messages ORDER BY _id DESC LIMIT 15`)
+    .then(messages => {
+      console.log('Successfully selected records from db!');
+      res.json(messages.rows);
+    })
+    .catch(err => res.status(400).send('Error getting messages from db', err));
 }
 
 messageController.postMessage = (req, res, next) => {
   const { fromUser, msg } = req.body;
-  const insertQry = {
-    text: `INSERT INTO messages ("fromUser", msg) VALUES ($1, $2) RETURNING *`,
-    values: [
-      fromUser,
-      msg
-    ]
-  };
   // Insert our message into db
   pool
-    .query(insertQry)
-    .then(result => {
-      console.log('Successfully inserted message to db', result.rows[0]);
-      res.json(req.body);
+    .query({
+      text: `INSERT INTO messages ("fromUser", msg) VALUES ($1, $2) RETURNING *`,
+      values: [fromUser, msg]
+    })
+    .then(message => {
+      console.log('Successfully inserted message to db', message.rows[0]);
+      res.json(req.body); // send back a response of the posted message if successful
     })
     .catch(err => res.status(400).send('Error inserting message to db', err));
-
-  // Select all previous messages
-  // pool
-  //   .query('SELECT * FROM messages')
-  //   .then(result => {
-  //     console.log('Here are the records in the table now');
-  //     for (let i = 0; i < result.rows.length; i++) { console.log(result.rows[i]); }
-  //     res.json(req.body);
-  //     // res.json(result.rows);
-  //   })
-  //   .catch(err => res.status(400).send('Error selecting message from db', err));
 }
 module.exports = messageController;

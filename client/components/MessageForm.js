@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MessageForm = ({ getMessages, postMessage }) => {
+const MessageForm = ({ postMessage }) => {
   return (
     <div>
     <form>
@@ -20,7 +20,6 @@ const MessageForm = ({ getMessages, postMessage }) => {
       </input>
       
     </form>
-    <input onClick={e => getMessages()} type='button' value='GetMessages'></input>
     </div>
   );
 }
