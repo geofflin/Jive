@@ -1,7 +1,7 @@
 const express = require('express'); 
 const path = require('path');
 const bodyParser = require('body-parser');
-const { getMessages } = require('./messageController.js');
+const { getMessages, postMessage } = require('./messageController.js');
 
 const app = express();
 const port = 3000;
@@ -9,7 +9,8 @@ const http = require('http');
 
 // const server = http.createServer(app);
 
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Set up routes
 if (process.env.NODE_ENV === 'production') {
@@ -18,5 +19,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/messages', getMessages);
+app.post('/messages', postMessage);
 
 app.listen(port, () => console.log(`App is now listening on ${port}`));

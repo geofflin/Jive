@@ -21,9 +21,22 @@ class MessagesContainer extends Component {
       .catch(err => console.error(err));
   }
 
-  postMessage(msg) {
-    const { messages } = this.state;
-    this.setState({ messages: messages.concat(msg) });
+  postMessage(from_user, msg) {
+    // const { messages } = this.state;
+    // this.setState({ messages: messages.concat(msg) });
+    const message = {
+      from_user,
+      msg
+    }
+    console.log(message);
+    fetch('/messages', {
+      method: 'POST', 
+      body: JSON.stringify(message), 
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(res => console.log('Success:', JSON.stringify(res)))
+      .catch(error => console.error('Error:', error));
   }
 
   render() {

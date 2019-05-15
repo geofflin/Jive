@@ -11,8 +11,7 @@ const MessageForm = ({ getMessages, postMessage }) => {
           e => {
             e.preventDefault(); // prevent submit from refreshing page
             if (!username.value || !message.value) return window.alert('Type in a username and/or message!');
-            postMessage(message.value);
-            getMessages();
+            postMessage(username.value, message.value);
             message.value = '';
           }
         } 

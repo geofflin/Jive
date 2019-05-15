@@ -18,7 +18,7 @@ client.connect(err => {
     (
       _id SERIAL PRIMARY KEY NOT NULL,
       message VARCHAR(250) NOT NULL,
-      from_user_id VARCHAR(15) NOT NULL
+      from_user_id VARCHAR(50) NOT NULL
     )`
     
     // to_user_id VARCHAR(15) NOT NULL,
@@ -31,32 +31,47 @@ client.connect(err => {
     ]
   };
 
-  client
-    .query(dropQry)
-    .then(result => console.log('Successfully dropped messages table'))
-    .catch(err => {
-      console.log('Unsuccessfully dropped messages table', err);
-      client.end();
-    });
+  const selectQry = `SELECT * FROM messages`;
 
-  client
-    .query(createQry)
-    .then(result => console.log('Successfully created messages table'))
-    .catch(err => {
-      console.error('Unsuccessfully created messages table', err);
-      client.end();
-    });
+  // client
+  //   .query(dropQry)
+  //   .then(result => console.log('Successfully dropped messages table'))
+  //   .catch(err => {
+  //     console.log('Unsuccessfully dropped messages table', err);
+  //     client.end();
+  //   });
+
+  // client
+  //   .query(createQry)
+  //   .then(result => console.log('Successfully created messages table'))
+  //   .catch(err => {
+  //     console.error('Unsuccessfully created messages table', err);
+  //     client.end();
+  //   });
 
   client
     .query(insertQry)
     .then(result => {
       console.log('Successfully inserted into message table', result.rows[0]);
-      client.end();
     })
     .catch(err => {
       console.error('Unsuccessfully inserted into messages table', err);
       client.end();
     });
+
+  client
+    .query(selectQry)
+    .then(result => {
+      console.log('Here are the records in the table now');
+      for (let i = 0; i < result.rows.length; i++) {
+        console.log(result.rows[i]);
+      }
+      client.end();
+    })
+    .catch(err => {
+      console.error('Error selecting', err);
+      client.end();
+    })
 });
 
 
