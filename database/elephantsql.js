@@ -1,4 +1,3 @@
-// const pg = require('pg');
 const { Client } = require('pg');
 const uri = 'postgres://kzbujefd:az33ZfTosSKCrfqnrM1dtGHDPIywoiQ2@isilo.db.elephantsql.com:5432/kzbujefd';
 
@@ -17,37 +16,36 @@ client.connect(err => {
     `CREATE TABLE messages
     (
       _id SERIAL PRIMARY KEY NOT NULL,
-      message VARCHAR(250) NOT NULL,
-      from_user_id VARCHAR(50) NOT NULL
+      "fromUser" VARCHAR(25) NOT NULL,
+      msg VARCHAR(250) NOT NULL
     )`
-    
-    // to_user_id VARCHAR(15) NOT NULL,
+    // to_user VARCHAR(25) NOT NULL,
   );
   const insertQry = {
-    text: `INSERT INTO messages (message, from_user_id) VALUES ($1, $2) RETURNING *`,
+    text: `INSERT INTO messages ("fromUser", msg) VALUES ($1, $2) RETURNING *`,
     values: [
-      'Hey world',
-      'Geoff'
+      'Geoff',
+      'Hey world'
     ]
   };
 
   const selectQry = `SELECT * FROM messages`;
 
-  // client
-  //   .query(dropQry)
-  //   .then(result => console.log('Successfully dropped messages table'))
-  //   .catch(err => {
-  //     console.log('Unsuccessfully dropped messages table', err);
-  //     client.end();
-  //   });
+  client
+    .query(dropQry)
+    .then(result => console.log('Successfully dropped messages table'))
+    .catch(err => {
+      console.log('Unsuccessfully dropped messages table', err);
+      client.end();
+    });
 
-  // client
-  //   .query(createQry)
-  //   .then(result => console.log('Successfully created messages table'))
-  //   .catch(err => {
-  //     console.error('Unsuccessfully created messages table', err);
-  //     client.end();
-  //   });
+  client
+    .query(createQry)
+    .then(result => console.log('Successfully created messages table'))
+    .catch(err => {
+      console.error('Unsuccessfully created messages table', err);
+      client.end();
+    });
 
   client
     .query(insertQry)
@@ -74,13 +72,6 @@ client.connect(err => {
     })
 });
 
-
-// Another way of storing the database:
-// let db;
-// pg.connect(uri, (err, database) => {
-//   if (err) throw new Error(err);
-//   db = database;
-// })
 
   // client
   //   .query('SELECT NOW() AS "theTime"')

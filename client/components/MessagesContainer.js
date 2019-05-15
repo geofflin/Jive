@@ -6,7 +6,7 @@ class MessagesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: ['hi', 'hello', 'sup'] // need to replace string elements with msgObjects
+      messages: [{ fromUser: 'Geoff', msg: 'Hello!' }]
     }
     this.getMessages = this.getMessages.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -21,26 +21,23 @@ class MessagesContainer extends Component {
       .catch(err => console.error(err));
   }
 
-  postMessage(from_user, msg) {
-    // const { messages } = this.state;
-    // this.setState({ messages: messages.concat(msg) });
+  postMessage(fromUser, msg) {
     const message = {
-      from_user,
+      fromUser,
       msg
     }
-    console.log(message);
     fetch('/messages', {
       method: 'POST', 
       body: JSON.stringify(message), 
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      .then(res => console.log('Success:', JSON.stringify(res)))
+      .then(message => this.setState({ messages: this.state.messages.concat(message) }))
       .catch(error => console.error('Error:', error));
   }
 
   render() {
-    const messages = this.state.messages.map((msg, i) => <Message msg={msg} key={i} />);
+    const messages = this.state.messages.map((msgObj, i) => <Message msgObj={msgObj} key={i} />);
     return (
       <div>
         {messages}
