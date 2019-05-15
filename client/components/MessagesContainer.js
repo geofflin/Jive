@@ -6,7 +6,7 @@ class MessagesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: ['hi', 'hello', 'sup']
+      messages: ['hi', 'hello', 'sup'] // need to replace string elements with msgObjects
     }
     this.getMessages = this.getMessages.bind(this);
     this.postMessage = this.postMessage.bind(this);
@@ -14,7 +14,11 @@ class MessagesContainer extends Component {
 
   getMessages() {
     // Ping the server
-    // fetch()
+    // fetch request to /messages route
+    fetch('/messages')
+      .then(res => res.json())
+      .then(myJson => console.log(JSON.stringify(myJson)))
+      .catch(err => console.error(err));
   }
 
   postMessage(msg) {
@@ -23,11 +27,11 @@ class MessagesContainer extends Component {
   }
 
   render() {
-    const messages = this.state.messages.map(msg => <Message msg={msg} />);
+    const messages = this.state.messages.map((msg, i) => <Message msg={msg} key={i} />);
     return (
       <div>
         {messages}
-        <MessageForm postMessage={this.postMessage} />
+        <MessageForm getMessages={this.getMessages} postMessage={this.postMessage} />
       </div>
     );  
   }

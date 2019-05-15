@@ -1,7 +1,7 @@
 const messageController = {};
 // Implement Database Logic Here to get messages from elephantsql
 messageController.getMessages = (req, res, next) => {
-  res.send('Im in getMessages messageController!');
+  res.json({ test: 'its working!' });
 }
 
 
