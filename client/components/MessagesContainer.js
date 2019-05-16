@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import socketIOClient from 'socket.io-client';
 import MessagesDisplay from './MessagesDisplay.js';
 import MessageForm from './MessageForm.js';
 
@@ -19,7 +20,6 @@ class MessagesContainer extends Component {
       .then(res => res.json())
       .then(messages => this.setState({ messages }))
       .catch(err => console.error(err));
-    
     setTimeout(this.getMessages, 1000);
   }
 
@@ -61,6 +61,11 @@ class MessagesContainer extends Component {
 
   componentDidMount() {
     this.getMessages();
+    // const socket = socketIOClient('http://localhost:3000/');
+    // socket.on('news', function (data) {
+    //   console.log(data);
+    //   socket.emit('test', { my: 'data' });
+    // });
   }
 
   render() {

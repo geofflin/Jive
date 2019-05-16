@@ -10,13 +10,14 @@ const port = 3000;
 // const http = require('http');
 // const server = http.Server(app);
 // const io = require('socket.io')(server);
-// server.listen(port);
 
-// io.on('connection', function (socket) {
+// io.on('connection', socket => {
+//   console.log('a user has connected!');
+//   socket.on('disconnect', () => console.log('a user has disconnected'));
 //   socket.emit('news', { hello: 'world' });
-//   // socket.on('my other event', function (data) {
-//   //   console.log(data);
-//   // });
+//   socket.on('test', function (data) {
+//     console.log(data);
+//   });
 // });
 // End Socket
 
@@ -36,4 +37,6 @@ app.post('/messages', postMessage);
 app.patch('/messages/:messageId', editMessage);
 app.delete('/messages/:messageId', deleteMessage);
 
-app.listen(port, () => console.log(`App is now listening on ${port}`));
+app.listen(port, () => console.log(`App is now listening on ${port}`)); // for non-sockets
+
+// server.listen(port, () => `Server now listening on port ${port}`); // for sockets

@@ -18,28 +18,6 @@ const Message = ({ msgObj, deleteMessage, editMessage }) => {
         >x
         </button>
       </p>
-      {/* <input 
-        className='newComment' 
-        id={`message${msgObj._id}`}
-        type='text'
-      ></input>
-      <form>
-        <input id='username' type='text' placeholder='Username'></input>
-        <input id='message' type='text' placeholder='Enter Message'></input>
-        <input 
-          onClick = {
-            e => {
-              e.preventDefault(); // prevent submit from refreshing page
-              if (!username.value || !message.value) return window.alert('Type in a username and/or message!');
-              postMessage(username.value, message.value);
-              message.value = '';
-            }
-          } 
-          type='submit' 
-          value='>'>
-        </input> 
-      
-      </form>*/}
     </li>
   );
 }
