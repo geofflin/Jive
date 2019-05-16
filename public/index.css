@@ -1,6 +1,13 @@
 #msgDisplay {
   border: 1px solid black;
+  list-style-type: none;
+  padding: 0px 10px;
 }
+
+/* #msgDisplay li {
+  
+
+} */
 
 /* p.message:hover{
   background-color: #00FFFF;

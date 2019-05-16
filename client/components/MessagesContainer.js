@@ -39,7 +39,7 @@ class MessagesContainer extends Component {
 
   // Changes the message to HARD-CODED VALUE
   editMessage(messageId) {
-    const newMessage = { newMsg: 'UPDATED!!!' };
+    const newMessage = { newMsg: 'Hard-Coded' };
     fetch(`/messages/${messageId}`, {
       method: 'PATCH',
       body: JSON.stringify(newMessage), 

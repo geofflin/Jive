@@ -2,7 +2,7 @@ import React from 'react';
 
 const Message = ({ msgObj, deleteMessage, editMessage }) => {
   return (
-    <div>
+    <li>
       <p className='message' id={`message${msgObj._id}`}>
         <strong>{msgObj.fromUser}:</strong> {msgObj.msg}
         <button
@@ -40,7 +40,7 @@ const Message = ({ msgObj, deleteMessage, editMessage }) => {
         </input> 
       
       </form>*/}
-    </div>
+    </li>
   );
 }
 

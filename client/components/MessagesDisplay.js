@@ -15,9 +15,9 @@ const MessagesDisplay = ({ messages, deleteMessage, editMessage }) => {
     );
   }
   return (
-    <div id='msgDisplay'>
+    <ul id='msgDisplay'>
       {messagesToDisplay}
-    </div>
+    </ul>
   )
 }
 
