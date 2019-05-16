@@ -41,4 +41,27 @@ messageController.postMessage = (req, res, next) => {
     })
     .catch(err => res.status(400).send('Error inserting message to db', err));
 }
+
+messageController.editMessage = (req, res, next) => {
+  const { messageId } = req.params;
+  const { newMsg } = req.body;
+  console.log(`UPDATE messages SET msg='${newMsg}' WHERE _id=${messageId}`);
+  pool
+    .query(`UPDATE messages SET msg='${newMsg}' WHERE _id=${messageId}`)
+    .then(message => {
+      console.log('Successfully updated message in db', message.rows[0]);
+      res.status(200).send();
+    })
+    .catch(err => res.status(400).send('Error updating message to db', err));
+}
+
+messageController.deleteMessage = (req, res, next) => {
+  const { messageId } = req.params;
+  pool
+    .query(`DELETE FROM messages WHERE _id=${messageId}`)
+    .then(() => console.log('Successful deletion!'))
+    .then(() => res.status(200).send('Successfully deleted message'))
+    .catch(err => res.status(400).send('Error deleting message to db', err));
+}
+
 module.exports = messageController;

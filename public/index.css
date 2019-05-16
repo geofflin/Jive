@@ -1,3 +1,23 @@
 #msgDisplay {
   border: 1px solid black;
 }
+
+/* p.message:hover{
+  background-color: #00FFFF;
+  margin: 0px;
+  padding: 0px;
+} */
+
+.closeButton:hover{
+  background: red;
+}
+.closeButton {
+  border-radius: 10px;
+}
+
+.editButton:hover{
+  background: aqua;
+}
+.editButton {
+  border-radius: 10px;
+}

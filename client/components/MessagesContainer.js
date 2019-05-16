@@ -10,15 +10,17 @@ class MessagesContainer extends Component {
     }
     this.getMessages = this.getMessages.bind(this);
     this.postMessage = this.postMessage.bind(this);
+    this.editMessage = this.editMessage.bind(this);
+    this.deleteMessage = this.deleteMessage.bind(this);
   }
 
   getMessages() {
-    // Ping the server
-    // fetch request to /messages route
     fetch('/messages')
       .then(res => res.json())
       .then(messages => this.setState({ messages }))
       .catch(err => console.error(err));
+    
+    setTimeout(this.getMessages, 1000);
   }
 
   postMessage(fromUser, msg) {
@@ -31,20 +33,44 @@ class MessagesContainer extends Component {
       body: JSON.stringify(message), 
       headers: { 'Content-Type': 'application/json' }
     })
-      // .then(res => res.json())
-      .then(() => this.getMessages())
+      .then(() => console.log('Successfully posted message')) 
+      .catch(error => console.error('Error:', error));
+  }
+
+  // Changes the message to HARD-CODED VALUE
+  editMessage(messageId) {
+    const newMessage = { newMsg: 'UPDATED!!!' };
+    fetch(`/messages/${messageId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(newMessage), 
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(() => console.log('Successfully edited message'))
+      .catch(error => console.error('Error:', error));
+  }
+
+  deleteMessage(messageId) {
+    fetch(`/messages/${messageId}`, {
+      method: 'DELETE'
+      // body: JSON.stringify(messageId), 
+      // headers: { 'Content-Type': 'text/plain' }
+    })
+      .then(() => console.log('Successfully deleted message'))
       .catch(error => console.error('Error:', error));
   }
 
   componentDidMount() {
     this.getMessages();
-    setTimeout(this.getMessages, 5000);
   }
 
   render() {
     return (
       <div>
-        <MessagesDisplay messages={[...this.state.messages]} />
+        <MessagesDisplay 
+          messages={this.state.messages} 
+          deleteMessage={this.deleteMessage}
+          editMessage={this.editMessage}
+        />
         <MessageForm postMessage={this.postMessage} />
       </div>
     );  
