@@ -4,7 +4,7 @@ const {
   postMessage,
   editMessage,
   deleteMessage,
-} = require('../controllers/messageController.js');
+} = require('../controllers/messageController.js.js');
 
 messageRouter.get('/', getMessages);
 messageRouter.post('/', postMessage);

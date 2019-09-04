@@ -1,5 +1,5 @@
 import React from 'react';
-import Message from './Message.js';
+import Message from './Message.js.js';
 
 const MessagesDisplay = ({ messages, deleteMessage, editMessage }) => {
   const messagesToDisplay = [];

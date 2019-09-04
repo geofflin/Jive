@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
-import MessagesDisplay from './MessagesDisplay.js';
-import MessageForm from './MessageForm.js';
+import MessagesDisplay from './MessagesDisplay.js.js';
+import MessageForm from './MessageForm.js.js';
 
 class MessagesContainer extends Component {
   constructor(props) {
