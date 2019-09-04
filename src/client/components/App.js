@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div>
         <h2>REACT APP COMPONENT</h2>
-        <MessagesContainer />
+        {/* <MessagesContainer /> */}
       </div>
     );
   }
