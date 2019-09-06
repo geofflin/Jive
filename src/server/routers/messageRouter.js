@@ -1,0 +1,11 @@
+"use strict";
+exports.__esModule = true;
+var express = require("express");
+var messageController_1 = require("../controllers/messageController");
+var messageRouter = express.Router();
+var getMessages = messageController_1["default"].getMessages, addMessage = messageController_1["default"].addMessage, editMessage = messageController_1["default"].editMessage, deleteMessage = messageController_1["default"].deleteMessage;
+messageRouter.get('/', getMessages);
+messageRouter.post('/', addMessage);
+messageRouter.patch('/:messageId', editMessage);
+messageRouter["delete"]('/:messageId', deleteMessage);
+exports["default"] = messageRouter;

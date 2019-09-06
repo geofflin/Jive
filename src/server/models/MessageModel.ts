@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 require('dotenv').config();
 
 const pool = new Pool({
@@ -6,9 +6,9 @@ const pool = new Pool({
   ssl: true,
 });
 
-pool.connect((err, client, done) => {
+pool.connect((err: Error) => {
   if (err) return console.error('Unsuccessfully connected to db', err);
   console.log('Successfully connected to db!');
 });
 
-module.exports = pool;
+export default pool;
