@@ -5,7 +5,7 @@ import { Message } from '../interfaces/interfaces';
 export default {
   getMessages: (ws: WebSocket) => {
     db.query(`SELECT * FROM messages ORDER BY id DESC LIMIT 15`)
-      .then(messages => ws.send(JSON.stringify(messages.rows)))
+      .then(data => ws.send(JSON.stringify(data.rows)))
       .catch(err => console.error('Error in getMessages controller', err));
   },
 
@@ -23,10 +23,10 @@ export default {
   },
 
   deleteMessage: (payload: number) => {
-    const text = `DELETE FROM messages WHERE id = $1`;
+    const text = `DELETE FROM messages WHERE id = $1 RETURNING *`;
     const values = [payload];
     db.query(text, values)
-      .then(() => console.log('Successfully deleted record'))
+      .then(data => console.log('Successfully deleted record', data.rows[0]))
       .catch(err => console.error('Error in deleteMessage controller', err));
   },
   

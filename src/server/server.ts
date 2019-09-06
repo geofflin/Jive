@@ -3,8 +3,8 @@ import * as express from 'express';
 import * as path from 'path';
 import messageController from './controllers/messageController';
 
-const app = express();
 const PORT = 3000;
+const app = express();
 const wss = new WebSocket.Server({ 
   server: app.listen(PORT, () => console.log(`App is now listening on ${PORT}`))
 });
