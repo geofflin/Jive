@@ -24815,14 +24815,15 @@ module.exports = g;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const App = () => {
-    const url = 'ws://localhost:3000';
-    const socket = new WebSocket(url);
-    socket.addEventListener('open', () => {
-        socket.send('Hello World!');
-    });
-    socket.addEventListener('message', event => {
-        console.log(`Message from server: ${event.data}`);
-    });
+    const socket = new WebSocket('ws://localhost:3000');
+    socket.onopen = () => {
+        const request = { method: 'GET', payload: '' };
+        socket.send(JSON.stringify(request));
+    };
+    // socket.onmessage = event => {
+    //   console.log(`Message from server: ${event.data}`);
+    //   console.log('event data', event)
+    // };
     return (React.createElement("div", null,
         React.createElement("h2", null, "REACT APP COMPONENT")));
 };

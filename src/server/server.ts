@@ -23,12 +23,14 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../../public/index.html')));
 }
 
+console.log('messageController', getMessages);
 wss.on('connection', (ws: WebSocket) => {
-  ws.on('message', (event: userEvent) => {
+  ws.on('message', (event: string) => {
     console.log('received: %s', event);
-    const { method, payload } = event;
+    const { method, payload } = JSON.parse(event);
     switch (method) {
       case 'GET':
+        console.log('hey')
         getMessages(ws);
         break;
       case 'POST':

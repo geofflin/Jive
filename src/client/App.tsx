@@ -1,15 +1,16 @@
 import * as React from 'react';
 
 const App = () => {
-  const url = 'ws://localhost:3000';
-  const socket = new WebSocket(url);
-  socket.addEventListener('open', () => {
-    socket.send('Hello World!');
-  });
+  const socket = new WebSocket('ws://localhost:3000');
+  socket.onopen = () => {
+    const request = { method: 'GET', payload: '' };
+    socket.send(JSON.stringify(request));
+  };
    
-  socket.addEventListener('message', event => {
-    console.log(`Message from server: ${event.data}`);
-  });
+  // socket.onmessage = event => {
+  //   console.log(`Message from server: ${event.data}`);
+  //   console.log('event data', event)
+  // };
   return (
     <div>
       <h2>REACT APP COMPONENT</h2>
