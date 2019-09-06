@@ -1,4 +1,4 @@
-export interface messageBody {
+export interface MessageBody {
   username: string,
   message: string,
 }

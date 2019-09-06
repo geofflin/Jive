@@ -2,8 +2,6 @@ import * as WebSocket from 'ws';
 import * as express from 'express';
 import * as path from 'path';
 import messageController from './controllers/messageController';
-import { userEvent } from '../interfaces/interfaces';
-
 
 const app = express();
 const PORT = 3000;
@@ -23,17 +21,15 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../../public/index.html')));
 }
 
-console.log('messageController', getMessages);
 wss.on('connection', (ws: WebSocket) => {
   ws.on('message', (event: string) => {
-    console.log('received: %s', event);
     const { method, payload } = JSON.parse(event);
     switch (method) {
       case 'GET':
-        console.log('hey')
         getMessages(ws);
         break;
       case 'POST':
+        addMessage(ws, payload);
         break;
       case 'DELETE':
         break;
