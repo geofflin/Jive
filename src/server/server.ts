@@ -21,6 +21,7 @@ if (process.env.NODE_ENV === 'production') {
   app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../../public/index.html')));
 }
 
+// WebSocket Server: Pseudo 'Request' Handlers
 wss.on('connection', (ws: WebSocket) => {
   ws.on('message', (event: string) => {
     const { method, payload } = JSON.parse(event);

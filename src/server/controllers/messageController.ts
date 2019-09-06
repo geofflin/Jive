@@ -29,5 +29,4 @@ export default {
       .then(data => console.log('Successfully deleted record', data.rows[0]))
       .catch(err => console.error('Error in deleteMessage controller', err));
   },
-  
 };
