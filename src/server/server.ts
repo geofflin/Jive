@@ -32,10 +32,10 @@ wss.on('connection', (ws: WebSocket) => {
         addMessage(ws, payload);
         break;
       case 'DELETE':
+        deleteMessage(payload);
         break;
       default:
     }
-    // ws.send(`Hello, you sent -> ${event}`);
   });
 
   ws.send('Hi there, I am a WebSocket server');
