@@ -1,4 +1,4 @@
-export interface userEvent {
-  method: string,
-  payload: string,
+export interface messageBody {
+  username: string,
+  message: string,
 }
