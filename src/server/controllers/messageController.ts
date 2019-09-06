@@ -27,7 +27,7 @@ export default {
     const values = [payload];
     db.query(text, values)
       .then(() => console.log('Successfully deleted record'))
-      .catch(err => console.error('Error in deleteMEssage controller', err));
+      .catch(err => console.error('Error in deleteMessage controller', err));
   },
   
 };
