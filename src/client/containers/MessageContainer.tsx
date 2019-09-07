@@ -13,7 +13,7 @@ const MessageContainer: React.FC<Props> = () => {
 
   // Get messages on initial load when WebSocket state is OPEN
   useEffect((): void => {
-    ws.send(JSON.stringify(getMessages()));
+    if (ws.readyState === 1) ws.send(JSON.stringify(getMessages()));
   }, [ws.readyState]);
 
   return (
