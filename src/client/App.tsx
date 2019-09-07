@@ -1,14 +1,14 @@
-import * as React from 'react';
+import React, { Fragment } from 'react';
 import MessageContainer from './containers/MessageContainer';
 
 interface Props {};
 
 const App: React.FC<Props> = () => {
   return (
-    <React.Fragment>
+    <Fragment>
       <h2>Jive</h2>
       <MessageContainer />
-    </React.Fragment>
+    </Fragment>
   )
 };
 

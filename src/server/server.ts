@@ -1,6 +1,6 @@
-import * as WebSocket from 'ws';
-import * as express from 'express';
-import * as path from 'path';
+import WebSocket from 'ws';
+import express from 'express';
+import path from 'path';
 import messageController from './controllers/messageController';
 
 const PORT = 3000;
