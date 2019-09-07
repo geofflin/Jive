@@ -19,7 +19,7 @@ const MessageContainer: React.FC<Props> = () => {
   return (
     <React.Fragment>
       <MessageForm ws={ws} />
-      <MessageDisplay messages={messages} />
+      <MessageDisplay ws={ws} messages={messages} />
     </React.Fragment>
   );
 };

@@ -26,14 +26,14 @@ wss.on('connection', (ws: WebSocket) => {
     const { method, payload } = JSON.parse(event);
     switch (method) {
       case 'POST':
-        await addMessage(ws, payload);
+        await addMessage(payload);
         break;
       case 'DELETE':
         await deleteMessage(payload);
         break;
       default:
     }
-    await getMessages(ws);
+    await getMessages(wss);
   });
 });
 

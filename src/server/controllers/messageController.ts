@@ -3,13 +3,15 @@ import db from '../models/MessageModel';
 import { Message } from '../interfaces/interfaces';
 
 export default {
-  getMessages: (ws: WebSocket) => {
+  getMessages: (wss: WebSocket.Server) => {
     return db.query(`SELECT * FROM messages ORDER BY id DESC LIMIT 15`)
-      .then(data => ws.send(JSON.stringify(data.rows)))
+      .then(data => wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(data.rows))
+      }))
       .catch(err => console.error('Error in getMessages controller', err));
   },
 
-  addMessage: (ws: WebSocket, payload: Message) => {
+  addMessage: (payload: Message) => {
     const { username, message } = payload;
     const text = `INSERT INTO messages (username, message) VALUES ($1, $2) RETURNING *`;
     const values = [username, message];
