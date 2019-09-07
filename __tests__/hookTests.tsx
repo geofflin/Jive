@@ -1,10 +1,9 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, fireEvent, getByTestId} from '@testing-library/react';
 import App from '../src/client/App';
 
 describe('App', () => {
   it('renders', () => {
-    //@ts-ignore
-    mount(<App />);
+    const { container } = render(<App />);
   });
 });
