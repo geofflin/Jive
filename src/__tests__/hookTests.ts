@@ -1,7 +1,9 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from '../src/client/App';
+import React from 'react';
+import { mount } from 'enzyme';
+import { TodoList } from './TodoList';
 
-it('renders without crashing', () => {
-  expect(5+5).toBe(10);
-});
+// describe('TodoList', () => {
+//   it('renders', () => {
+//     mount(<TodoList />);
+//   });
+// });
