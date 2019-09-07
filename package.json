@@ -1,7 +1,7 @@
 {
-  "name": "chat-app",
+  "name": "jive",
   "version": "1.0.0",
-  "description": "Not just another chat app",
+  "description": "jivin' with friends",
   "main": "index.js",
   "scripts": {
     "test": "jest",
