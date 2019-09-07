@@ -12,7 +12,6 @@ const wss = new WebSocket.Server({
 const {
   getMessages,
   addMessage,
-  editMessage,
   deleteMessage,
 } = messageController;
 
@@ -23,23 +22,19 @@ if (process.env.NODE_ENV === 'production') {
 
 // WebSocket Server: Pseudo 'Request' Handlers
 wss.on('connection', (ws: WebSocket) => {
-  ws.on('message', (event: string) => {
+  ws.on('message', async (event: string) => {
     const { method, payload } = JSON.parse(event);
     switch (method) {
-      case 'GET':
-        getMessages(ws);
-        break;
       case 'POST':
-        addMessage(ws, payload);
+        await addMessage(ws, payload);
         break;
       case 'DELETE':
-        deleteMessage(payload);
+        await deleteMessage(payload);
         break;
       default:
     }
+    await getMessages(ws);
   });
-
-  ws.send('Hi there, I am a WebSocket server');
 });
 
 wss.on('close', () => console.log('WebSocket Server has closed'));

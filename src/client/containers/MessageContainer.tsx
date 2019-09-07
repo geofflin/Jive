@@ -1,5 +1,7 @@
 import * as React from 'react';
 import MessageForm from '../components/MessageForm';
+import MessageDisplay from '../components/MessageDisplay';
+import { getMessages } from '../events/eventCreators';
 
 interface Props {};
 
@@ -7,33 +9,18 @@ const MessageContainer: React.FC<Props> = () => {
   const ws = new WebSocket('ws://localhost:3000');
   const [messages, setMessages] = React.useState([]);
 
-  // GET 
-  // socket.onopen = () => {
-  //   const request = { method: 'GET', payload: '' };
-  //   socket.send(JSON.stringify(request));
-  // };
-   
-  // POST
-  // socket.onopen = () => {
-  //   const request = { method: 'POST', payload: { username: 'geoff', message: 'hey there' } };
-  //   socket.send(JSON.stringify(request));
-  // };
+  ws.onmessage = (event: any): void => setMessages(JSON.parse(event.data));
 
-  // DELETE
-  // socket.onopen = () => {
-  //   const request = { method: 'DELETE', payload: 3 };
-  //   socket.send(JSON.stringify(request));
-  // };
+  // Get messages on initial load when WebSocket state is OPEN
+  React.useEffect((): void => {
+    ws.send(JSON.stringify(getMessages()));
+  }, [ws.readyState]);
 
-  // socket.onmessage = event => {
-  //   console.log(`Message from server: ${event.data}`);
-  //   console.log('event data', event)
-  // };
   return (
-    <div>
-      <p>MessageContainer</p>
-      <MessageForm ws={ws} setMessages={setMessages} />
-    </div>
+    <React.Fragment>
+      <MessageForm ws={ws} />
+      <MessageDisplay messages={messages} />
+    </React.Fragment>
   );
 };
 
