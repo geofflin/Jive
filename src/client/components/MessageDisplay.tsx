@@ -9,7 +9,7 @@ interface MessageModel {
 };
 
 interface Props {
-  ws: WebSocket,
+  ws?: WebSocket,
   messages: Array<MessageModel>,
 }
 
