@@ -16,9 +16,9 @@ interface Props {
 const MessageDisplay: React.FC<Props> = ({ ws, messages }) => {
   const chatMessages = messages.map(msg => <Message key={msg.id} ws={ws} id={msg.id} msg={msg}/>);
   return (
-    <div>
+    <ul>
       {chatMessages}
-    </div>
+    </ul>
   );
 };
 
