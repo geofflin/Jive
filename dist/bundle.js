@@ -24812,22 +24812,187 @@ module.exports = g;
 
 "use strict";
 
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const MessageContainer_1 = __importDefault(__webpack_require__(/*! ./containers/MessageContainer */ "./src/client/containers/MessageContainer.tsx"));
+;
 const App = () => {
-    const socket = new WebSocket('ws://localhost:3000');
-    socket.onopen = () => {
-        const request = { method: 'GET', payload: '' };
-        socket.send(JSON.stringify(request));
-    };
-    // socket.onmessage = event => {
-    //   console.log(`Message from server: ${event.data}`);
-    //   console.log('event data', event)
-    // };
-    return (React.createElement("div", null,
-        React.createElement("h2", null, "REACT APP COMPONENT")));
+    return (react_1.default.createElement(react_1.Fragment, null,
+        react_1.default.createElement("h2", null, "Jive"),
+        react_1.default.createElement(MessageContainer_1.default, null)));
 };
 exports.default = App;
+
+
+/***/ }),
+
+/***/ "./src/client/components/Message.tsx":
+/*!*******************************************!*\
+  !*** ./src/client/components/Message.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+;
+;
+const Message = ({ id, msg, deleteMessage }) => {
+    const { username, date, message } = msg;
+    return (react_1.default.createElement("li", null,
+        `${username} (${date}): ${message}`,
+        react_1.default.createElement("button", { onClick: () => deleteMessage(id) }, "X")));
+};
+exports.default = Message;
+
+
+/***/ }),
+
+/***/ "./src/client/components/MessageDisplay.tsx":
+/*!**************************************************!*\
+  !*** ./src/client/components/MessageDisplay.tsx ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const Message_1 = __importDefault(__webpack_require__(/*! ./Message */ "./src/client/components/Message.tsx"));
+;
+const MessageDisplay = ({ messages, deleteMessage }) => {
+    const chatMessages = messages.map(msg => (react_1.default.createElement(Message_1.default, { key: msg.id, id: msg.id, msg: msg, deleteMessage: deleteMessage })));
+    return (react_1.default.createElement("ul", null, chatMessages));
+};
+exports.default = MessageDisplay;
+
+
+/***/ }),
+
+/***/ "./src/client/components/MessageForm.tsx":
+/*!***********************************************!*\
+  !*** ./src/client/components/MessageForm.tsx ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const eventCreators_1 = __webpack_require__(/*! ../events/eventCreators */ "./src/client/events/eventCreators.ts");
+;
+const MessageForm = ({ ws }) => {
+    const [username, setUsername] = react_1.useState('');
+    const [message, setMessage] = react_1.useState('');
+    const onSubmit = () => ws.send(JSON.stringify(eventCreators_1.addMessage(username, message)));
+    const onChange = (e) => {
+        if (e.target.id === 'username')
+            setUsername(e.target.value);
+        else
+            setMessage(e.target.value);
+    };
+    return (react_1.default.createElement(react_1.Fragment, null,
+        react_1.default.createElement("input", { id: "username", type: "text", placeholder: "username", onChange: onChange }),
+        react_1.default.createElement("input", { id: "message", type: "text", placeholder: "message", onChange: onChange }),
+        react_1.default.createElement("button", { id: "post", onClick: onSubmit }, "POST")));
+};
+exports.default = MessageForm;
+
+
+/***/ }),
+
+/***/ "./src/client/containers/MessageContainer.tsx":
+/*!****************************************************!*\
+  !*** ./src/client/containers/MessageContainer.tsx ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+const MessageForm_1 = __importDefault(__webpack_require__(/*! ../components/MessageForm */ "./src/client/components/MessageForm.tsx"));
+const MessageDisplay_1 = __importDefault(__webpack_require__(/*! ../components/MessageDisplay */ "./src/client/components/MessageDisplay.tsx"));
+const events = __importStar(__webpack_require__(/*! ../events/eventCreators */ "./src/client/events/eventCreators.ts"));
+;
+const MessageContainer = () => {
+    const ws = new WebSocket('ws://localhost:3000');
+    const [messages, setMessages] = react_1.useState([]);
+    const deleteMessage = (id) => ws.send(JSON.stringify(events.deleteMessage(id)));
+    ws.onmessage = (event) => setMessages(JSON.parse(event.data));
+    // Get messages on initial load when WebSocket state is OPEN
+    react_1.useEffect(() => {
+        if (ws.readyState === 1)
+            ws.send(JSON.stringify(events.getMessages()));
+    }, [ws.readyState]);
+    return (react_1.default.createElement(react_1.Fragment, null,
+        react_1.default.createElement(MessageForm_1.default, { ws: ws }),
+        react_1.default.createElement(MessageDisplay_1.default, { messages: messages, deleteMessage: deleteMessage })));
+};
+exports.default = MessageContainer;
+
+
+/***/ }),
+
+/***/ "./src/client/events/eventCreators.ts":
+/*!********************************************!*\
+  !*** ./src/client/events/eventCreators.ts ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getMessages = () => ({
+    method: 'GET',
+});
+exports.addMessage = (username, message) => ({
+    method: 'POST',
+    payload: { username, message },
+});
+exports.deleteMessage = (id) => ({
+    method: 'DELETE',
+    payload: id,
+});
 
 
 /***/ }),
@@ -24841,11 +25006,14 @@ exports.default = App;
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const react_dom_1 = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-const App_1 = __webpack_require__(/*! ./App */ "./src/client/App.tsx");
-react_dom_1.render(React.createElement(App_1.default, null), document.getElementById('root'));
+const App_1 = __importDefault(__webpack_require__(/*! ./App */ "./src/client/App.tsx"));
+react_dom_1.render(react_1.default.createElement(App_1.default, null), document.getElementById('root'));
 
 
 /***/ })
