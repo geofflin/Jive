@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import WS from "jest-websocket-mock";
 import { configure, shallow, ShallowWrapper } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
+import MessageForm from '../src/client/components/MessageForm';
 import MessageDisplay from '../src/client/components/MessageDisplay';
 import Message from '../src/client/components/Message';
 
@@ -76,20 +77,46 @@ describe('Component Unit Tests', () => {
       deleteMessage: jest.fn(),
     };
 
-    beforeAll(() => wrapper = shallow(<MessageDisplay {...props} />))
+    beforeAll(() => {
+      wrapper = shallow(<MessageDisplay {...props} />)
+    });
+
     it('renders an unordered list tag', () => {
       expect(wrapper.type()).toEqual('ul');
     });
     it('renders correct number of Message components', () => {
       expect(wrapper.find('Message').length).toEqual(5);
     });
+  });
 
-    // it('websockets', async () => {
-    //   await server.connected; 
-    //   client.send('hello');
-    //   await expect(server).toReceiveMessage('hello');
-    //   expect(server).toHaveReceivedMessages(['hello']);
-    // });
+  describe('MessageForm.tsx', () => {
+    const props = {
+      handleClick: jest.fn(),
+      handleChange: jest.fn(),
+    };
+
+    beforeAll(() => {
+      wrapper = shallow(<MessageForm {...props} />)
+    });
+
+    it('should render two inputs that invokes handleChange when changed', () => {
+      const inputs = wrapper.find('input');
+      expect(inputs.length).toBe(2);
+      expect(props.handleChange.mock.calls.length).toBe(0);
+      inputs.at(0).simulate('change');
+      expect(props.handleChange.mock.calls.length).toBe(1);
+      inputs.at(1).simulate('change');
+      expect(props.handleChange.mock.calls.length).toBe(2);
+    });
+    it('should have one button labeled POST that invokes handleClick when clicked', () => {
+      const buttons = wrapper.find('button');
+      expect(buttons.length).toBe(1);
+      expect(buttons.text()).toBe('POST');
+      expect(props.handleClick.mock.calls.length).toBe(0);
+      buttons.simulate('click')
+      expect(props.handleClick.mock.calls.length).toBe(1);
+    });
+
   });
 
 });

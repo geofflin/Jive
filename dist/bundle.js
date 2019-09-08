@@ -24908,11 +24908,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 ;
-const MessageForm = ({ onSubmit, onChange }) => {
+const MessageForm = ({ handleClick, handleChange }) => {
     return (react_1.default.createElement(react_1.Fragment, null,
-        react_1.default.createElement("input", { id: "username", type: "text", placeholder: "username", onChange: onChange }),
-        react_1.default.createElement("input", { id: "message", type: "text", placeholder: "message", onChange: onChange }),
-        react_1.default.createElement("button", { id: "post", onClick: onSubmit }, "POST")));
+        react_1.default.createElement("input", { id: "username", type: "text", placeholder: "username", onChange: handleChange }),
+        react_1.default.createElement("input", { id: "message", type: "text", placeholder: "message", onChange: handleChange }),
+        react_1.default.createElement("button", { id: "post", onClick: handleClick }, "POST")));
 };
 exports.default = MessageForm;
 
@@ -24949,8 +24949,8 @@ const MessageContainer = () => {
     const [messages, setMessages] = react_1.useState([]);
     const [username, setUsername] = react_1.useState('');
     const [message, setMessage] = react_1.useState('');
-    const onSubmit = () => ws.send(JSON.stringify(events.addMessage(username, message)));
-    const onChange = (e) => {
+    const handleClick = () => ws.send(JSON.stringify(events.addMessage(username, message)));
+    const handleChange = (e) => {
         if (e.target.id === 'username')
             setUsername(e.target.value);
         else
@@ -24964,7 +24964,7 @@ const MessageContainer = () => {
             ws.send(JSON.stringify(events.getMessages()));
     }, [ws.readyState]);
     return (react_1.default.createElement(react_1.Fragment, null,
-        react_1.default.createElement(MessageForm_1.default, { onSubmit: onSubmit, onChange: onChange }),
+        react_1.default.createElement(MessageForm_1.default, { handleClick: handleClick, handleChange: handleChange }),
         react_1.default.createElement(MessageDisplay_1.default, { messages: messages, deleteMessage: deleteMessage })));
 };
 exports.default = MessageContainer;
