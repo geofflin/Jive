@@ -11,7 +11,7 @@ interface MessageModel {
 interface Props {
   messages: Array<MessageModel>,
   deleteMessage: Function,
-}
+};
 
 const MessageDisplay: React.FC<Props> = ({ messages, deleteMessage }) => {
   const chatMessages = messages.map(msg => (

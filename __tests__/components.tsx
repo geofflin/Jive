@@ -53,8 +53,11 @@ describe('Component Unit Tests', () => {
       expect(buttons.length).toEqual(1);
       expect(buttons.text()).toEqual('X');
     });
-    it('calls ws send', async () => {
+    it('invokes delete onClick function', async () => {
       const buttons = wrapper.find('button');
+      expect(props.deleteMessage.mock.calls.length).toBe(0);
+      buttons.simulate('click');
+      expect(props.deleteMessage.mock.calls.length).toBe(1);
     });
   });
 
