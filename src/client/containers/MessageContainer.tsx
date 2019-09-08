@@ -3,10 +3,11 @@ import MessageForm from '../components/MessageForm';
 import MessageDisplay from '../components/MessageDisplay';
 import * as events from '../events/eventCreators';
 
-interface Props {};
+interface Props {
+  ws: WebSocket,
+};
 
-const MessageContainer: React.FC<Props> = () => {
-  const ws = new WebSocket('ws://localhost:3000');
+const MessageContainer: React.FC<Props> = ({ ws }) => {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');

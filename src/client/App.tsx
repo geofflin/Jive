@@ -4,9 +4,10 @@ import MessageContainer from './containers/MessageContainer';
 interface Props {};
 
 const App: React.FC<Props> = () => {
+  const ws = new WebSocket('ws://localhost:3000');
   return (
     <Fragment>
-      <MessageContainer />
+      <MessageContainer ws={ws} />
     </Fragment>
   )
 };
