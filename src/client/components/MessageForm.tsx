@@ -1,17 +1,16 @@
 import React, { Fragment } from 'react';
-import { addMessage } from '../events/eventCreators';
 
 interface Props {
-  onSubmit: any,
-  onChange: any,
+  handleClick: any,
+  handleChange: any,
 };
 
-const MessageForm: React.FC<Props> = ({ onSubmit, onChange }) => {
+const MessageForm: React.FC<Props> = ({ handleClick, handleChange }) => {
   return (
     <Fragment>
-      <input id="username" type="text" placeholder="username" onChange={onChange} />
-      <input id="message" type="text" placeholder="message" onChange={onChange} />
-      <button id="post" onClick={onSubmit}>POST</button>
+      <input id="username" type="text" placeholder="username" onChange={handleChange} />
+      <input id="message" type="text" placeholder="message" onChange={handleChange} />
+      <button id="post" onClick={handleClick}>POST</button>
     </Fragment>
   );
 };

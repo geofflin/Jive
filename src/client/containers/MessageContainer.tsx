@@ -10,8 +10,8 @@ const MessageContainer: React.FC<Props> = () => {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
-  const onSubmit = (): void => ws.send(JSON.stringify(events.addMessage(username, message)));
-  const onChange = (e: any): void => {
+  const handleClick = (): void => ws.send(JSON.stringify(events.addMessage(username, message)));
+  const handleChange = (e: any): void => {
     if (e.target.id === 'username') setUsername(e.target.value);
     else setMessage(e.target.value);
   };
@@ -26,7 +26,7 @@ const MessageContainer: React.FC<Props> = () => {
 
   return (
     <Fragment>
-      <MessageForm onSubmit={onSubmit} onChange={onChange} />
+      <MessageForm handleClick={handleClick} handleChange={handleChange} />
       <MessageDisplay messages={messages} deleteMessage={deleteMessage} />
     </Fragment>
   );
