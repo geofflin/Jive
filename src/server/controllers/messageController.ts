@@ -1,6 +1,10 @@
-import * as WebSocket from 'ws';
+import WebSocket from 'ws';
 import db from '../models/MessageModel';
-import { Message } from '../interfaces/interfaces';
+
+interface Message {
+  username: string,
+  message: string,
+}
 
 export default {
   getMessages: (wss: WebSocket.Server) => {
