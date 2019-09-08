@@ -24879,6 +24879,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 const Message_1 = __importDefault(__webpack_require__(/*! ./Message */ "./src/client/components/Message.tsx"));
 ;
+;
 const MessageDisplay = ({ messages, deleteMessage }) => {
     const chatMessages = messages.map(msg => (react_1.default.createElement(Message_1.default, { key: msg.id, id: msg.id, msg: msg, deleteMessage: deleteMessage })));
     return (react_1.default.createElement("ul", null, chatMessages));
@@ -24906,18 +24907,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-const eventCreators_1 = __webpack_require__(/*! ../events/eventCreators */ "./src/client/events/eventCreators.ts");
 ;
-const MessageForm = ({ ws }) => {
-    const [username, setUsername] = react_1.useState('');
-    const [message, setMessage] = react_1.useState('');
-    const onSubmit = () => ws.send(JSON.stringify(eventCreators_1.addMessage(username, message)));
-    const onChange = (e) => {
-        if (e.target.id === 'username')
-            setUsername(e.target.value);
-        else
-            setMessage(e.target.value);
-    };
+const MessageForm = ({ onSubmit, onChange }) => {
     return (react_1.default.createElement(react_1.Fragment, null,
         react_1.default.createElement("input", { id: "username", type: "text", placeholder: "username", onChange: onChange }),
         react_1.default.createElement("input", { id: "message", type: "text", placeholder: "message", onChange: onChange }),
@@ -24956,6 +24947,15 @@ const events = __importStar(__webpack_require__(/*! ../events/eventCreators */ "
 const MessageContainer = () => {
     const ws = new WebSocket('ws://localhost:3000');
     const [messages, setMessages] = react_1.useState([]);
+    const [username, setUsername] = react_1.useState('');
+    const [message, setMessage] = react_1.useState('');
+    const onSubmit = () => ws.send(JSON.stringify(events.addMessage(username, message)));
+    const onChange = (e) => {
+        if (e.target.id === 'username')
+            setUsername(e.target.value);
+        else
+            setMessage(e.target.value);
+    };
     const deleteMessage = (id) => ws.send(JSON.stringify(events.deleteMessage(id)));
     ws.onmessage = (event) => setMessages(JSON.parse(event.data));
     // Get messages on initial load when WebSocket state is OPEN
@@ -24964,7 +24964,7 @@ const MessageContainer = () => {
             ws.send(JSON.stringify(events.getMessages()));
     }, [ws.readyState]);
     return (react_1.default.createElement(react_1.Fragment, null,
-        react_1.default.createElement(MessageForm_1.default, { ws: ws }),
+        react_1.default.createElement(MessageForm_1.default, { onSubmit: onSubmit, onChange: onChange }),
         react_1.default.createElement(MessageDisplay_1.default, { messages: messages, deleteMessage: deleteMessage })));
 };
 exports.default = MessageContainer;

@@ -1,18 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { addMessage } from '../events/eventCreators';
 
 interface Props {
-  ws: WebSocket,
+  onSubmit: any,
+  onChange: any,
 };
 
-const MessageForm: React.FC<Props> = ({ ws }) => {
-  const [username, setUsername] = useState('');
-  const [message, setMessage] = useState('');
-  const onSubmit = (): void => ws.send(JSON.stringify(addMessage(username, message)));
-  const onChange = (e: any): void => {
-    if (e.target.id === 'username') setUsername(e.target.value);
-    else setMessage(e.target.value);
-  };
+const MessageForm: React.FC<Props> = ({ onSubmit, onChange }) => {
   return (
     <Fragment>
       <input id="username" type="text" placeholder="username" onChange={onChange} />

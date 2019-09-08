@@ -8,6 +8,13 @@ interface Props {};
 const MessageContainer: React.FC<Props> = () => {
   const ws = new WebSocket('ws://localhost:3000');
   const [messages, setMessages] = useState([]);
+  const [username, setUsername] = useState('');
+  const [message, setMessage] = useState('');
+  const onSubmit = (): void => ws.send(JSON.stringify(events.addMessage(username, message)));
+  const onChange = (e: any): void => {
+    if (e.target.id === 'username') setUsername(e.target.value);
+    else setMessage(e.target.value);
+  };
   const deleteMessage = (id: number): void => ws.send(JSON.stringify(events.deleteMessage(id)));
 
   ws.onmessage = (event: any): void => setMessages(JSON.parse(event.data));
@@ -19,7 +26,7 @@ const MessageContainer: React.FC<Props> = () => {
 
   return (
     <Fragment>
-      <MessageForm ws={ws} />
+      <MessageForm onSubmit={onSubmit} onChange={onChange} />
       <MessageDisplay messages={messages} deleteMessage={deleteMessage} />
     </Fragment>
   );
