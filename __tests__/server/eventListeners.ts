@@ -11,28 +11,38 @@ describe('WebSocket event listener integration tests', () => {
   };
   let event;
 
-  afterEach(() => messageController.getMessages.mockClear());
+  afterEach(() => {
+    Object.values(messageController).forEach(mockFunc => mockFunc.mockClear());
+  });
 
   it('should invoke getMessages controller for GET events', async () => {
     event = JSON.stringify(events.getMessages());
     expect(messageController.getMessages.mock.calls.length).toBe(0);
+    expect(messageController.addMessage.mock.calls.length).toBe(0);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
     await wsEventListener(event, wss, messageController);
     expect(messageController.getMessages.mock.calls.length).toBe(1);
+    expect(messageController.addMessage.mock.calls.length).toBe(0);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
   });
   it('should invoke addMessage controller for POST events', async () => {
     event = JSON.stringify(events.addMessage('Geoff', 'Hello!'));
-    expect(messageController.addMessage.mock.calls.length).toBe(0);
     expect(messageController.getMessages.mock.calls.length).toBe(0);
+    expect(messageController.addMessage.mock.calls.length).toBe(0);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
     await wsEventListener(event, wss, messageController);
-    expect(messageController.addMessage.mock.calls.length).toBe(1);
     expect(messageController.getMessages.mock.calls.length).toBe(1);
+    expect(messageController.addMessage.mock.calls.length).toBe(1);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
   });
   it('should invoke deleteMessage controller for DELETE events', async () => {
     event = JSON.stringify(events.deleteMessage(7));
-    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
     expect(messageController.getMessages.mock.calls.length).toBe(0);
+    expect(messageController.addMessage.mock.calls.length).toBe(0);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(0);
     await wsEventListener(event, wss, messageController);
-    expect(messageController.deleteMessage.mock.calls.length).toBe(1);
     expect(messageController.getMessages.mock.calls.length).toBe(1);
+    expect(messageController.addMessage.mock.calls.length).toBe(0);
+    expect(messageController.deleteMessage.mock.calls.length).toBe(1);
   });
 });
