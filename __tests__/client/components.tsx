@@ -1,28 +1,14 @@
 import React from 'react';
-import sinon from 'sinon';
-import WS from "jest-websocket-mock";
 import { configure, shallow, ShallowWrapper } from 'enzyme';
 import EnzymeAdapter from 'enzyme-adapter-react-16';
-import MessageForm from '../src/client/components/MessageForm';
-import MessageDisplay from '../src/client/components/MessageDisplay';
-import Message from '../src/client/components/Message';
+import MessageForm from '../../src/client/components/MessageForm';
+import MessageDisplay from '../../src/client/components/MessageDisplay';
+import Message from '../../src/client/components/Message';
 
 configure({ adapter: new EnzymeAdapter() });
 
 describe('Component Unit Tests', () => {
   let wrapper: ShallowWrapper;
-  let server: WS;
-  let client: WebSocket;
-
-  beforeAll(() => {
-    server = new WS('ws://localhost:1234');
-    client = new WebSocket('ws://localhost:1234');
-  });
-  
-  afterAll(() => {
-    server.close();
-    WS.clean();
-  });
 
   describe('Message.tsx', () => {
     const msg = {
@@ -116,7 +102,6 @@ describe('Component Unit Tests', () => {
       buttons.simulate('click')
       expect(props.handleClick.mock.calls.length).toBe(1);
     });
-
   });
 
 });
