@@ -4,7 +4,7 @@ import db from '../models/MessageModel';
 interface Message {
   username: string,
   message: string,
-}
+};
 
 export default {
   getMessages: (wss: WebSocket.Server) => {

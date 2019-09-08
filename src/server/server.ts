@@ -1,6 +1,7 @@
 import WebSocket from 'ws';
 import express from 'express';
 import path from 'path';
+import wsEventListener from './webSockets/eventListeners';
 import messageController from './controllers/messageController';
 
 const PORT = 3000;
@@ -8,12 +9,6 @@ const app = express();
 const wss = new WebSocket.Server({ 
   server: app.listen(PORT, () => console.log(`App is now listening on ${PORT}`))
 });
-
-const {
-  getMessages,
-  addMessage,
-  deleteMessage,
-} = messageController;
 
 // HTTP Protocol
 if (process.env.NODE_ENV === 'production') {
@@ -23,19 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // WebSocket Protocol
 wss.on('connection', (ws: WebSocket) => {
-  ws.on('message', async (event: string) => {
-    const { method, payload } = JSON.parse(event);
-    switch (method) {
-      case 'POST':
-        await addMessage(payload);
-        break;
-      case 'DELETE':
-        await deleteMessage(payload);
-        break;
-      default:
-    }
-    await getMessages(wss);
-  });
+  ws.on('message', (event: string) => wsEventListener(event, wss, messageController));
 });
 
 wss.on('close', () => console.log('WebSocket Server has closed'));

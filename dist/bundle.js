@@ -24827,9 +24827,9 @@ const react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/re
 const MessageContainer_1 = __importDefault(__webpack_require__(/*! ./containers/MessageContainer */ "./src/client/containers/MessageContainer.tsx"));
 ;
 const App = () => {
+    const ws = new WebSocket('ws://localhost:3000');
     return (react_1.default.createElement(react_1.Fragment, null,
-        react_1.default.createElement("h2", null, "Jive"),
-        react_1.default.createElement(MessageContainer_1.default, null)));
+        react_1.default.createElement(MessageContainer_1.default, { ws: ws })));
 };
 exports.default = App;
 
@@ -24944,8 +24944,7 @@ const MessageForm_1 = __importDefault(__webpack_require__(/*! ../components/Mess
 const MessageDisplay_1 = __importDefault(__webpack_require__(/*! ../components/MessageDisplay */ "./src/client/components/MessageDisplay.tsx"));
 const events = __importStar(__webpack_require__(/*! ../events/eventCreators */ "./src/client/events/eventCreators.ts"));
 ;
-const MessageContainer = () => {
-    const ws = new WebSocket('ws://localhost:3000');
+const MessageContainer = ({ ws }) => {
     const [messages, setMessages] = react_1.useState([]);
     const [username, setUsername] = react_1.useState('');
     const [message, setMessage] = react_1.useState('');
