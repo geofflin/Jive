@@ -8,7 +8,7 @@ interface Message {
 
 export default {
   getMessages: (wss: WebSocket.Server) => {
-    return db.query(`SELECT * FROM messages ORDER BY id DESC LIMIT 15`)
+    return db.query(`SELECT * FROM messages ORDER BY id LIMIT 15`)
       .then(data => wss.clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) client.send(JSON.stringify(data.rows))
       }))
