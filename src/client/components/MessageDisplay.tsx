@@ -9,12 +9,14 @@ interface MessageModel {
 };
 
 interface Props {
-  ws?: WebSocket,
   messages: Array<MessageModel>,
+  deleteMessage: Function,
 }
 
-const MessageDisplay: React.FC<Props> = ({ ws, messages }) => {
-  const chatMessages = messages.map(msg => <Message key={msg.id} ws={ws} id={msg.id} msg={msg}/>);
+const MessageDisplay: React.FC<Props> = ({ messages, deleteMessage }) => {
+  const chatMessages = messages.map(msg => (
+    <Message key={msg.id} id={msg.id} msg={msg} deleteMessage={deleteMessage}/>
+  ));
   return (
     <ul>
       {chatMessages}

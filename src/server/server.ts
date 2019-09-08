@@ -15,12 +15,13 @@ const {
   deleteMessage,
 } = messageController;
 
+// HTTP Protocol
 if (process.env.NODE_ENV === 'production') {
   app.use('/dist', express.static(path.join(__dirname, '../../dist')));
   app.get('/', (req, res) => res.sendFile(path.resolve(__dirname, '../../public/index.html')));
 }
 
-// WebSocket Server: Pseudo 'Request' Handlers
+// WebSocket Protocol
 wss.on('connection', (ws: WebSocket) => {
   ws.on('message', async (event: string) => {
     const { method, payload } = JSON.parse(event);

@@ -10,17 +10,17 @@ interface MessageModel {
 
 interface Props {
   id: number,
-  ws?: WebSocket,
   msg: MessageModel,
+  deleteMessage: Function,
 };
 
-const Message: React.FC<Props> = ({ id, ws, msg }) => {
+const Message: React.FC<Props> = ({ id, msg, deleteMessage }) => {
   const { username, date, message } = msg;
-  const deleteMessage = (): void => ws.send(JSON.stringify(events.deleteMessage(id)));
+  
   return (
     <li>
       {`${username} (${date}): ${message}`}
-      <button onClick={deleteMessage}>X</button>
+      <button onClick={(): void => deleteMessage(id)}>X</button>
     </li>
   );
 };
