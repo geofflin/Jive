@@ -6,7 +6,6 @@ interface Props {};
 const App: React.FC<Props> = () => {
   return (
     <Fragment>
-      <h2>Jive</h2>
       <MessageContainer />
     </Fragment>
   )
